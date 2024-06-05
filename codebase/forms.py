@@ -9,9 +9,9 @@ class TaskForm(forms.ModelForm):
 class SubmissionForm(forms.ModelForm):
     class Meta:
         model = Submission
-        fields = ['student','task','image','file']
+        fields = ['image','file']
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['task','student','comment','hidden']
+        fields = ['comment']

@@ -1,11 +1,12 @@
 from functools import wraps
 
 from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .forms import SubmissionForm, CommentForm
 from .models import Task, Submission, Comment
@@ -38,7 +39,7 @@ def index(request):
         tasks = Task.objects.filter(school=request.user.school)
         return render(request, 'index.html', {'tasks': tasks})
     else:
-        return reverse('home')
+        return redirect('home')
 
 
 @isTaskAssignedToSchool
@@ -48,20 +49,17 @@ def taskview(request, id):
     user_submissions = task.task_submissions.filter(student=request.user)
     comments = task.task_comments.all()
     form = SubmissionForm(initial={'student': request.user})
-    return render(request, 'task.html', {'task': task, 'submissions': user_submissions, 'comments': comments, 'form':form})
+    commentform = CommentForm(initial={'student': request.user})
+    return render(request, 'task.html', {'task': task, 
+                                         'submissions': user_submissions, 
+                                         'comments': comments, 
+                                         'form':form,
+                                         'commentform':commentform,
+                                         })
 
 
 class SubmissionView(View):
-    @login_required
-    def get(self, request, *args, **kwargs):
-        student = request.user if isinstance(request.user, Student) else None
-        if student is not None:
-            form = SubmissionForm(initial={'student': student})
-            return render(request, 'submit.html', {'form': form})
-        else:
-            return render(request, '403.html', {'error': 'You are not a student!'})
-
-    @login_required
+    @method_decorator(login_required)
     def post(self, request, task_id, *args, **kwargs):
         task = get_object_or_404(Task, id=task_id)
         if not isinstance(request.user, Student):
@@ -77,12 +75,12 @@ class SubmissionView(View):
             except Exception as e:
                 print(e)
                 messages.error(request, "An error occured")
-            return render(request, 'success.html', {'message': 'Submission successful!'})
+            return redirect('task_detail', id = task_id)
         else:
             messages.error(request, "Submission failed, try again!")
             return render(request, 'error.html', {'error': 'Submission failed!'})
 
-    @login_required
+    @method_decorator(login_required)
     def put(self, request, id, *args, **kwargs):
         if not isinstance(request.user, Student):
             return render(request, '403.html')
@@ -95,10 +93,11 @@ class SubmissionView(View):
             submission.student = request.user
             submission.save()
             messages.success(request, 'Submission updated successfully')
-
+            return redirect('task_detail', id = submission.task.id)
         else:
             messages.error(request, 'update failed, try again')
 
+    @method_decorator(login_required)
     def delete(self, request, id, *args, **kwargs):
         if not isinstance(request.user, Student):
             return render(request, '404.html')
@@ -107,21 +106,13 @@ class SubmissionView(View):
             return render(request, '404.html')
         else:
             submission.delete()
-            return render(request, '')
+            return redirect('task_detail', id = submission.task.id)
 
 
 class CommentView(View):
-    @login_required
-    def get(self, request, *args, **kwargs):
-        student = request.user if isinstance(request.user, Student) else None
-        if student is not None:
-            form = CommentForm(initial={'student': student})
-            return render(request, 'submit.html', {'form': form})
-        else:
-            return render(request, '403.html', {'error': 'You are not a student!'})
-
-    @login_required
-    def post(self, request, *args, **kwargs):
+    @method_decorator(login_required)
+    def post(self, request, task_id, *args, **kwargs):
+        task = get_object_or_404(Task, id=task_id)
         if not isinstance(request.user, Student):
             return render(request, '404.html', {'error': 'You are not a student!'})
         form = CommentForm(request.POST, )
@@ -129,17 +120,18 @@ class CommentView(View):
             try:
                 comment = form.save(commit=False)
                 comment.student = request.user
+                comment.task = task
                 comment.save()
                 messages.success(request, "Commented successfully")
             except Exception as e:
                 print(e)
                 messages.error(request, 'An error occured')
-            return render(request, 'success.html', {'message': 'Submission successful!'})
+            return redirect('task_detail', id = task_id)
         else:
             messages.error(request, "Comment failed, try again!")
             return render(request, 'error.html', {'error': 'Comment failed!'})
 
-    @login_required
+    @method_decorator(login_required)
     def put(self, request, id, *args, **kwargs):
         if not isinstance(request.user, Student):
             return render(request, '404.html')
@@ -152,10 +144,11 @@ class CommentView(View):
             comment.student = request.user
             comment.save()
             messages.success(request, 'Submission updated successfully')
-
+            return redirect('task_detail', id = comment.task.id)
         else:
             messages.error(request, 'update failed, try again')
 
+    @method_decorator(login_required)
     def delete(self, request, id, *args, **kwargs):
         if not isinstance(request.user, Student):
             return render(request, '404.html')
@@ -164,4 +157,4 @@ class CommentView(View):
             return render(request, '404.html')
         else:
             comment.delete()
-            return render(request, '')
+            return redirect('task_detail', id = comment.task.id)
