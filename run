@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+
+import os 
+import sys
+
+l_o_p = input("local or production? (l/p): ")
+
+commands = {
+    "mm": "makemigrations",
+    'm': 'migrate',
+    'r': 'runserver',
+    's': 'shell',
+    'c': 'createsuperuser',
+    't': 'test',
+    'd': 'dumpdata',
+    'l': 'loaddata',
+    'f': 'flush',
+    'h': 'help',
+    'a': 'all',
+    'css': 'collectstatic'
+}
+
+def run():
+    if len(sys.argv) < 2:
+        sys.argv.append('r')
+    comm = commands.get(sys.argv[1], )
+    args = "".join(i for i in sys.argv[2:])
+    if l_o_p == 'l':
+        #print(f'python3 manage.py  {comm} {sys.argv[2:]} --settings=codetutor.config.local')
+        os.system(f'python3 manage.py  {comm} {args} --settings=codetutor.config.local')
+    elif l_o_p == 'p':
+        os.system(f'python3 manage.py  {comm} {args} --settings=codetutor.config.production')
+    else:
+        print("Invalid input")
+        sys.exit(1)
+
+run()
