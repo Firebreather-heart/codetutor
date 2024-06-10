@@ -19,6 +19,12 @@ class Task(models.Model):
     def __str__(self):
         return f"Task for {self.school.name} assigned on {self.date_assigned.strftime('%d-%m-%y')} due on {self.date_due.strftime('%d-%m-%y')}"
 
+    def save(self, *args, **kwargs):
+        if self.school != self.classroom.school:
+            raise Exception(
+                "Cannot assign task for another school to a classroom in another school")
+        return super().save(*args, **kwargs)
+
 
 class Submission(models.Model):
     student = models.ForeignKey(

@@ -3,15 +3,15 @@
 {% block title %}Task{% endblock %}
 {% block content %}
     <div>
-        <p>Task {{task.school}} {{task.classroom}} {{task.date_assigned|date:"l, jS F, Y"}} </p>
+        <p class="head-m">{{task.classroom}} <small style="float: right;font-weight: 100;">{{task.date_assigned|date:"l, jS F, Y"}}</small></p>
         <p>{{task.desc}}</p>
         {% if task.image %}
         <img src="{{task.image.url}}" alt="task-image">
         {% endif %}    
     </div>
-    <div>
-        <p>Make submission</p>
-        <form action="{% url 'submit' task.id  %}" method="post">
+    <main>
+        <p class="head-m">Make submission</p>
+        <form action="{% url 'submit' task.id  %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             {% if messages %}
@@ -36,24 +36,30 @@
             {% endif %}
             <button type="submit">submit</button>
         </form>
-    </div>
-    <div>
-        <p>Your submissions</p>
-        {% for submission in submission %}
-        <div>
+    </main>
+    <main>
+        <p class="head-m">Your submissions</p>
+        {% for submission in submissions %}
+        <div class="in-main">
             <p>Submission made on {{submission.date_submitted|date:"l, jS F, Y"}}</p>
-            <p>Score: {{submission.score}}</p>
+            <p>Score: {{submission.score}}</p> 
             {% if submission.image %}
             <img src="{{submission.image.url}}" alt="">
             {% endif %}
             {% if submission.file %}
-            <img src="{{submission.file.url}}" alt="">
+            <a class="link-btn" href="{{submission.file.url}}">Download file</a>
             {% endif %}
+            <form action="{% url 'delete_submission' submission.id  %}" method="post">
+                {% csrf_token %}
+                <button class="" type="submit">Delete</button>
+            </form>
         </div>
+        {% empty %}
+        <p>You have made no submissions</p>
         {% endfor %}
-    </div>
-    <div>
-        <p>Comments</p>
+    </main>
+    <main>
+        <p class="head-m">Comments</p>
         <form action="{% url 'comment' task.id %}" method="post">
             {% csrf_token %}
             {{ commentform.as_p }}
@@ -80,9 +86,13 @@
             <button type="submit">Add comment</button>
         </form>
         {% for comment in comments %}
-        <p>{{comment.student.username}}</p>
-        <p>{{comment.comment}}</p>
-        <small>{{comment.date}}</small>
+            <div class="in-main">
+                 <p class="head-m">{{comment.student.username}}</p>
+                    <p>{{comment.comment}}</p>
+                    <small>{{comment.date}}</small>
+            </div>
+            {% empty %}
+            <p>No comments yet</p>
         {% endfor %}
-    </div>
+    </main>
 {% endblock %}

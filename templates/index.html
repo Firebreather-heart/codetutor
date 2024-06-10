@@ -6,17 +6,19 @@
     <p>Welcome to CodeTutor</p>
     <div>
         {% for task in tasks %}
-        <div>
-            <p>Task {{task.school}} {{task.classroom}} {{task.date_assigned|date:"l, jS F, Y"}} </p>
+        <main>
+            <p class="head-m">{{task.classroom}} <small style="float: right;font-weight: 100;"> {{task.date_assigned|date:"l, jS F, Y"}}</small></p>
             <p>{{task.desc}}</p>
             {% if task.image %}
             <img src="{{task.image.url}}" alt="task-image">
             {% endif %}
             <div>
-                <a href="{% url 'task_detail' task.id %}">View Task</a>
+                <a class="link-btn" href="{% url 'task_detail' task.id %}">View Task</a>
                
             </div>
-        </div>
+        </main>
+        {% empty %}
+         <p>nothing to show</p>
         {% endfor %}
     </div>
 {% endblock %}

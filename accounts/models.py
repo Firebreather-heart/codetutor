@@ -12,7 +12,7 @@ class School(models.Model):
 
 
 class ClassRoom(models.Model):
-    CLASS_CHOICES = ('Primary', 'PR'), ('Junior Secondary', 'JSS'), ('Senior Secondary', 'SSS')
+    CLASS_CHOICES = ('PR','Primary'), ('JSS', 'Junior Secondary'), ('SSS', 'Senior Secondary')
     class_name = models.CharField(max_length=100, choices=CLASS_CHOICES)
     school = models.ForeignKey(
         School, on_delete=models.CASCADE, related_name='classrooms')
@@ -36,6 +36,7 @@ class Student(AbstractUser):
 
     def __str__(self):
         return self.username
+    
 
 
 class CustomUser(AbstractUser):

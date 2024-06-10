@@ -2,6 +2,7 @@ from functools import wraps
 
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import View
 from django.contrib import messages
@@ -14,13 +15,15 @@ from accounts.models import Student, ClassRoom, School
 
 # Create your views here.
 
+
 def isStudent(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
         if not isinstance(request.user, Student):
-            return HttpResponseForbidden("You must be a student to access this view")
+            return HttpResponseForbidden(render_to_string('403.html'))
         return view_func(request, *args, **kwargs)
     return _wrapped_view
+
 
 def isTaskAssignedToSchool(view_func):
     @wraps(view_func)
@@ -50,11 +53,11 @@ def taskview(request, id):
     comments = task.task_comments.all()
     form = SubmissionForm(initial={'student': request.user})
     commentform = CommentForm(initial={'student': request.user})
-    return render(request, 'task.html', {'task': task, 
-                                         'submissions': user_submissions, 
-                                         'comments': comments, 
-                                         'form':form,
-                                         'commentform':commentform,
+    return render(request, 'task.html', {'task': task,
+                                         'submissions': user_submissions,
+                                         'comments': comments,
+                                         'form': form,
+                                         'commentform': commentform,
                                          })
 
 
@@ -75,7 +78,7 @@ class SubmissionView(View):
             except Exception as e:
                 print(e)
                 messages.error(request, "An error occured")
-            return redirect('task_detail', id = task_id)
+            return redirect('task_detail', id=task_id)
         else:
             messages.error(request, "Submission failed, try again!")
             return render(request, 'error.html', {'error': 'Submission failed!'})
@@ -93,20 +96,21 @@ class SubmissionView(View):
             submission.student = request.user
             submission.save()
             messages.success(request, 'Submission updated successfully')
-            return redirect('task_detail', id = submission.task.id)
+            return redirect('task_detail', id=submission.task.id)
         else:
             messages.error(request, 'update failed, try again')
+            return redirect('task_detail', id=submission.task.id)
 
-    @method_decorator(login_required)
-    def delete(self, request, id, *args, **kwargs):
-        if not isinstance(request.user, Student):
-            return render(request, '404.html')
-        submission = get_object_or_404(Submission, id=id, student=request.user)
-        if not submission:
-            return render(request, '404.html')
-        else:
-            submission.delete()
-            return redirect('task_detail', id = submission.task.id)
+
+@login_required
+@isStudent
+def submissiondelete(request, id):
+    submission = get_object_or_404(Submission, id=id, student=request.user)
+    if not submission:
+        return render(request, '404.html')
+    else:
+        submission.delete()
+        return redirect('task_detail', id=submission.task.id)
 
 
 class CommentView(View):
@@ -126,7 +130,7 @@ class CommentView(View):
             except Exception as e:
                 print(e)
                 messages.error(request, 'An error occured')
-            return redirect('task_detail', id = task_id)
+            return redirect('task_detail', id=task_id)
         else:
             messages.error(request, "Comment failed, try again!")
             return render(request, 'error.html', {'error': 'Comment failed!'})
@@ -144,17 +148,18 @@ class CommentView(View):
             comment.student = request.user
             comment.save()
             messages.success(request, 'Submission updated successfully')
-            return redirect('task_detail', id = comment.task.id)
+            return redirect('task_detail', id=comment.task.id)
         else:
             messages.error(request, 'update failed, try again')
+            return redirect('task_detail', id=comment.task.id)
 
-    @method_decorator(login_required)
-    def delete(self, request, id, *args, **kwargs):
-        if not isinstance(request.user, Student):
-            return render(request, '404.html')
-        comment = get_object_or_404(Submission, id=id, student=request.user)
-        if not comment:
-            return render(request, '404.html')
-        else:
-            comment.delete()
-            return redirect('task_detail', id = comment.task.id)
+
+@login_required
+@isStudent
+def commentdelete(request, id):
+    comment = get_object_or_404(Submission, id=id, student=request.user)
+    if not comment:
+        return render(request, '404.html')
+    else:
+        comment.delete()
+        return redirect('task_detail', id=comment.task.id)

@@ -9,12 +9,12 @@ urlpatterns = [
          name='submit'),  
     path('edit-submission/<uuid:id>/', views.SubmissionView.as_view(),
          name='edit_submission'),  # type: ignore
-    path('delete-submission/<uuid:id>/',
-         views.SubmissionView.as_view(), name="delete_submission"),
+    path('delete_submission/<uuid:id>/',
+         views.submissiondelete, name="delete_submission"),
     path('comment/<uuid:task_id>', views.CommentView.as_view(),
          name='comment'),  # type: ignore
     path('edit-comment/<uuid:id>/', views.CommentView.as_view(),
          name='edit_comment'),  # type: ignore
     path('delete-comment/<uuid:id>/',
-         views.CommentView.as_view(), name="delete_comment"),
+         views.commentdelete, name="delete_comment"),
 ]
