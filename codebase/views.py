@@ -39,7 +39,7 @@ def isTaskAssignedToSchool(view_func):
 @isStudent
 def index(request):
     if request.method == "GET":
-        tasks = Task.objects.filter(school=request.user.school)
+        tasks = Task.objects.filter(school=request.user.school).order_by('-date_assigned')
         return render(request, 'index.html', {'tasks': tasks})
     else:
         return redirect('home')

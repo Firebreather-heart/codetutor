@@ -20,6 +20,7 @@ class SchoolAdmin(admin.ModelAdmin):
 
 class StudentAdmin(admin.ModelAdmin):
     list_display = ['username', 'email', 'school']
+    list_filter = ['school']
 
 class ClassRoomAdmin(admin.ModelAdmin):
     list_display = ['class_name', 'school']
