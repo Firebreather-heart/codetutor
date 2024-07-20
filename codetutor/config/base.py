@@ -9,9 +9,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = "1L9zMfswTc3bPKTc64CKitQ69Xf1Gr6hVdiq1t52N4if7LH-HUxclzGoTC61mkot8Yo"
 
 
-# Allowed hosts
-ALLOWED_HOSTS = ['codetutor-asuq.onrender.com', ]
-X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Application definition
 INSTALLED_APPS = [
@@ -128,11 +125,3 @@ JAZZMIN_SETTINGS = {
 }
 
 
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_DOMAIN = '.onrender.com'
-SECURE_SSL_REDIRECT = False
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'http://*.onrender.com',                     
-                        'https://codetutor-asuq.onrender.com'
-                        ]
