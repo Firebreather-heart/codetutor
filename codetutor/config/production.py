@@ -1,7 +1,10 @@
 from .base import * 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 DEBUG = False 
-ALLOWED_HOSTS = ['codetutor-asuq.onrender.com', 'www.codetutor-asuq.onrender.com']
+ALLOWED_HOSTS = ['codetutor-asuq.onrender.com', 'www.codetutor-asuq.onrender.com',]
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -33,3 +36,13 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+cloudinary.config(
+    cloud_name='doyyzz5fy',
+    api_key='154137597569181',
+    api_secret='bvi1QQT0eFtYzfqVhu9BMgwt3mc'
+)
+CLOUDINARY_URL = 'CLOUDINARY_URL=cloudinary://154137597569181:bvi1QQT0eFtYzfqVhu9BMgwt3mc@doyyzz5fy'
+
+DEFAULT_FILE_STORAGE = 'codetutor.cloudinary_backend.CustomCloudinaryStorage'

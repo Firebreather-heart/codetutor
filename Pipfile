@@ -12,6 +12,7 @@ psycopg-binary = "*"
 django = "==4.2"
 gunicorn = "*"
 django-debug-toolbar = "*"
+cloudinary = "*"
 
 [dev-packages]
 

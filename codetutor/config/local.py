@@ -10,3 +10,14 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sql8721138',
+#         'USER': 'sql8721138',
+#         'PASSWORD': 'KhDTVQgTk2',
+#         'HOST': 'sql8.freesqldatabase.com',
+#         'PORT': '3306', 
+#     }
+# }

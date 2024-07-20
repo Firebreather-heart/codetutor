@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     # 3rd party
     'jazzmin',
     # 'debug_toolbar',
+    'cloudinary',
 
     # django
     'django.contrib.admin',

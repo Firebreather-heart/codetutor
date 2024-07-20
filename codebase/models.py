@@ -2,6 +2,7 @@ import uuid
 from django.contrib.sessions.backends import file
 from django.db import models
 from accounts.models import School, Student, ClassRoom, CustomClassRoom
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 
@@ -15,7 +16,8 @@ class Task(models.Model):
     date_assigned = models.DateTimeField(auto_now=True)
     date_due = models.DateTimeField(null=True, blank=True)
     desc = models.TextField()
-    image = models.ImageField(upload_to='task_images/', null=True, blank=True)
+    image = CloudinaryField('image', blank=True,
+                            null=True, folder='task_images/')
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
@@ -43,10 +45,10 @@ class Submission(models.Model):
     task = models.ForeignKey(
         Task, on_delete=models.CASCADE, related_name='task_submissions')
     date_submitted = models.DateTimeField(auto_now=True)
-    image = models.ImageField(
-        upload_to='submission_images/', null=True, blank=True)
-    file = models.FileField(
-        upload_to='submission_files/', null=True, blank=True)
+    image = CloudinaryField('image', blank=True,
+                            null=True, folder='submission_images/')
+    file = CloudinaryField('file', blank=True, null=True,
+                           folder='submission_files/')
     score = models.IntegerField(null=True, blank=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
