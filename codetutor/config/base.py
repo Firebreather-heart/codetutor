@@ -11,6 +11,7 @@ SECRET_KEY = "1L9zMfswTc3bPKTc64CKitQ69Xf1Gr6hVdiq1t52N4if7LH-HUxclzGoTC61mkot8Y
 
 # Allowed hosts
 ALLOWED_HOSTS = ['codetutor-asuq.onrender.com', ]
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Application definition
 INSTALLED_APPS = [
