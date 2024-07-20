@@ -10,6 +10,8 @@ pillow = "*"
 psycopg2 = "*"
 psycopg-binary = "*"
 django = "==4.2"
+gunicorn = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

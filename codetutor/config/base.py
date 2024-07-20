@@ -1,5 +1,4 @@
 import os
-import secrets
 from pathlib import Path
 
 
@@ -11,13 +10,14 @@ SECRET_KEY = "1L9zMfswTc3bPKTc64CKitQ69Xf1Gr6hVdiq1t52N4if7LH-HUxclzGoTC61mkot8Y
 
 
 # Allowed hosts
-ALLOWED_HOSTS = ['codetutor-asuq.onrender.com',]
+ALLOWED_HOSTS = ['codetutor-asuq.onrender.com', ]
 
 # Application definition
 INSTALLED_APPS = [
 
     # 3rd party
     'jazzmin',
+    # 'debug_toolbar',
 
     # django
     'django.contrib.admin',
@@ -34,9 +34,14 @@ INSTALLED_APPS = [
     'codebase',
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -102,7 +107,7 @@ MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = ['accounts.authbackends.CustomUserModelBackend']
 LOGIN_REDIRECT_URL = 'home'
-
+LOGIN_URL = 'login'
 # Jazzmin settings
 JAZZMIN_SETTINGS = {
     "site_title": "CodeTutor Admin",

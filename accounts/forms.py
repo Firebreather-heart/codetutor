@@ -1,14 +1,16 @@
 from django import forms
-from .models import Student, School, ClassRoom
+from .models import Student, School, ClassRoom, CustomClassRoom
 
 
 class StudentForm(forms.ModelForm):
     school = forms.ModelChoiceField(queryset=School.objects.all())
-    classroom = forms.ModelChoiceField(queryset=ClassRoom.objects.all())
+    classroom = forms.ModelChoiceField(queryset=ClassRoom.objects.all(), required=False)
+    custom_classroom = forms.ModelChoiceField(queryset=CustomClassRoom.objects.all(), help_text='Select this if you are private student', label='Private Classroom', required=False )
+    password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = Student
-        fields = ['username', 'email', 'school', 'classroom', 'password']
+        fields = ['username', 'email', 'school', 'classroom', 'custom_classroom',  'password']
     
     def save(self, commit=True):
         user = super().save(commit=False)

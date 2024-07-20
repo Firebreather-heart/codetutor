@@ -20,6 +20,14 @@ class ClassRoom(models.Model):
     def __str__(self):
         return f'{self.class_name} - {self.school.name}'
 
+class CustomClassRoom(models.Model):
+    class_name = models.CharField(max_length=100)
+    school = models.ForeignKey(
+        School, on_delete=models.CASCADE, related_name='custom_classrooms')
+    
+    def __str__(self):
+        return f'{self.class_name} - {self.school.name}'
+
 
 class Student(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
@@ -27,7 +35,9 @@ class Student(AbstractUser):
     school = models.ForeignKey(
         School, on_delete=models.CASCADE, related_name='students')
     classroom = models.ForeignKey(
-        ClassRoom, on_delete=models.CASCADE, related_name='students')
+        ClassRoom, on_delete=models.CASCADE, related_name='students', null=True, blank=True)
+    custom_classroom = models.ForeignKey(
+        CustomClassRoom, on_delete=models.CASCADE, related_name='students', null=True, blank=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     groups = models.ManyToManyField(Group, related_name='student_set')
@@ -36,6 +46,11 @@ class Student(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+    def save(self, *args, **kwargs):
+        if self.custom_classroom is None and self.classroom is None:
+            raise ValueError('Student must belong to a classroom or custom classroom')
+        super().save(*args, **kwargs)
     
 
 
