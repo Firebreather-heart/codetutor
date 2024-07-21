@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from .models import School, Student, ClassRoom, CustomClassRoom, CustomUser
 from codebase.models import Task,Submission
 # Register your models here.
@@ -21,7 +22,7 @@ class SchoolAdmin(admin.ModelAdmin):
     inlines = [StudentInline, ClassRoomInline, CustomClassRoomInline]
 
 
-class StudentAdmin(admin.ModelAdmin):
+class StudentAdmin(UserAdmin):
     list_display = ['username', 'email', 'school']
     list_filter = ['school']
 
@@ -34,7 +35,7 @@ class CustomClassRoomAdmin(admin.ModelAdmin):
     inlines = [StudentInline, TaskInline]
 
 @admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):
+class CustomUserAdmin(UserAdmin):
     list_display = ['username', 'email']
     
 
