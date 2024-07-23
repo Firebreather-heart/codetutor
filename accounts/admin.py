@@ -40,6 +40,10 @@ class StudentAdmin(UserAdmin):
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
 
+    class Meta:
+        verbose_name = 'Student'
+        verbose_name_plural = 'Students'
+
 
 class ClassRoomAdmin(admin.ModelAdmin):
     list_display = ['class_name', 'school']
