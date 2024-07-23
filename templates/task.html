@@ -9,6 +9,9 @@
         {% if task.image %}
         <img src="{{task.image.url}}" alt="task-image">
         {% endif %}    
+        {% if task.file %}
+        <a class="link-btn" href="{{task.file.url}}">Download file</a>
+        {% endif %}
     </div>
     <main>
         <p class="head-m">Make submission</p>

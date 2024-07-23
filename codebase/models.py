@@ -23,7 +23,7 @@ class Task(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
-        return f"Task for {self.school.name} assigned on {self.date_assigned.strftime('%d-%m-%y')} due on {self.date_due.strftime('%d-%m-%y')}"
+        return f"Task for {self.school.name} assigned on {self.date_assigned.strftime('%d-%m-%y')} due on {self.date_due.strftime('%d-%m-%y')}" 
 
     def save(self, *args, **kwargs):
         if self.classroom is None and self.custom_classroom is None:
