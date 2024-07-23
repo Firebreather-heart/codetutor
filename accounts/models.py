@@ -31,7 +31,7 @@ class CustomClassRoom(models.Model):
 
 class Student(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(unique=True, blank=True, null=True)
+    email = None
     school = models.ForeignKey(
         School, on_delete=models.CASCADE, related_name='students')
     classroom = models.ForeignKey(

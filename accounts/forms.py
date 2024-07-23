@@ -10,7 +10,7 @@ class StudentForm(forms.ModelForm):
 
     class Meta:
         model = Student
-        fields = ['username', 'email', 'school', 'classroom', 'custom_classroom',  'password']
+        fields = ['username', 'school', 'classroom', 'custom_classroom',  'password']
     
     def save(self, commit=True):
         user = super().save(commit=False)

@@ -27,7 +27,7 @@ class SchoolAdmin(admin.ModelAdmin):
 
 
 class StudentAdmin(UserAdmin):
-    list_display = ['username', 'email', 'school']
+    list_display = ['username',  'school']
     list_filter = ['school']
 
 
