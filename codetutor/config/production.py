@@ -5,16 +5,7 @@ import cloudinary.api
 
 DEBUG = False 
 ALLOWED_HOSTS = ['*']
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'codetutor',
-#         'USER': 'sitemaker',
-#         'PASSWORD': 'sitepass',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+
 
 DATABASES = {
     'default': {
