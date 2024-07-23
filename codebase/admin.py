@@ -9,8 +9,8 @@ class SubmissionInline(admin.StackedInline):
 class TaskAdmin(admin.ModelAdmin):
     model = Task 
     inlines = [SubmissionInline]
-    list_display = ['school','classroom','date_assigned','date_due','desc']
-    list_filter = ['school','classroom']
+    list_display = ['school','classroom','custom_classroom','date_assigned','date_due','desc']
+    list_filter = ['school','classroom', 'custom_classroom']
     ordering = ['-date_assigned']
 
 admin.site.register(Task, TaskAdmin)

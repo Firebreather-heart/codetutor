@@ -18,6 +18,8 @@ class Task(models.Model):
     desc = models.TextField()
     image = CloudinaryField('image', blank=True,
                             null=True, folder='task_images/')
+    file = CloudinaryField('file', blank=True, null=True,
+                           folder='task_files/')
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
