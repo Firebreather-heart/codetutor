@@ -1,7 +1,6 @@
 from .base import * 
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+
 
 DEBUG = False 
 ALLOWED_HOSTS = ['*']
@@ -32,8 +31,11 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 cloudinary.config(
     cloud_name='doyyzz5fy',
     api_key='154137597569181',
-    api_secret='bvi1QQT0eFtYzfqVhu9BMgwt3mc'
+    api_secret='bvi1QQT0eFtYzfqVhu9BMgwt3mc',
+    api_proxy="http://proxy.server:3128"
 )
+import cloudinary.uploader
+import cloudinary.api
 CLOUDINARY_URL = 'CLOUDINARY_URL=cloudinary://154137597569181:bvi1QQT0eFtYzfqVhu9BMgwt3mc@doyyzz5fy'
 
 DEFAULT_FILE_STORAGE = 'codetutor.cloudinary_backend.CustomCloudinaryStorage'

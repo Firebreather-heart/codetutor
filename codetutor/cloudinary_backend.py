@@ -16,7 +16,8 @@ class CustomCloudinaryStorage(Storage):
         cloudinary.config(
             cloud_name=self.cloud_name,
             api_key=self.api_key,
-            api_secret=self.api_secret
+            api_secret=self.api_secret,
+            api_proxy="http://proxy.server:3128"
         )
 
     def _open(self, name, mode='rb'):
