@@ -8,6 +8,10 @@ from codebase.models import Task, Submission
 class StudentInline(admin.TabularInline):
     model = Student
 
+    class Meta:
+        verbose_name = 'Student'
+        verbose_name_plural = 'Students'
+
 
 class ClassRoomInline(admin.StackedInline):
     model = ClassRoom
@@ -29,6 +33,12 @@ class SchoolAdmin(admin.ModelAdmin):
 class StudentAdmin(UserAdmin):
     list_display = ['username',  'school']
     list_filter = ['school']
+
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
 
 
 class ClassRoomAdmin(admin.ModelAdmin):

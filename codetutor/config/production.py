@@ -2,7 +2,7 @@ from .base import *
 import cloudinary
 
 
-DEBUG = False 
+DEBUG = True 
 ALLOWED_HOSTS = ['*']
 
 

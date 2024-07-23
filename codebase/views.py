@@ -77,7 +77,7 @@ class SubmissionView(View):
                 messages.success(request, "Submitted successfully")
             except Exception as e:
                 print(e)
-                messages.error(request, "An error occured")
+                messages.error(request, f"An error occured")
             return redirect('task_detail', id=task_id)
         else:
             messages.error(request, "Submission failed, try again!")
@@ -129,7 +129,7 @@ class CommentView(View):
                 messages.success(request, "Commented successfully")
             except Exception as e:
                 print(e)
-                messages.error(request, 'An error occured')
+                messages.error(request, f'An error occured')
             return redirect('task_detail', id=task_id)
         else:
             messages.error(request, "Comment failed, try again!")
