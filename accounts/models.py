@@ -55,7 +55,7 @@ class Student(AbstractUser):
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True, blank=True, null=True)
+    email = None
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     groups = models.ManyToManyField(Group, related_name='customuser_set')
