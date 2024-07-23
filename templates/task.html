@@ -3,7 +3,8 @@
 {% block title %}Task{% endblock %}
 {% block content %}
     <div>
-        <p class="head-m">{{task.classroom}} <small style="float: right;font-weight: 100;">{{task.date_assigned|date:"l, jS F, Y"}}</small></p>
+        <p class="head-m">{{task.classroom|default:task.custom_classroom}} <small style="float: right;font-weight: 100;">{{task.date_assigned|date:"l, jS F, Y"}}</small></p>
+        <p>Due Date: {{ task.due_date|date:"l, jS F, Y" }}</p>
         <p>{{task.desc}}</p>
         {% if task.image %}
         <img src="{{task.image.url}}" alt="task-image">
@@ -18,7 +19,7 @@
                 <div class="messages">
                     <ul>
                         {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                         {% endfor %}
                     </ul>
                 </div>

@@ -10,6 +10,7 @@ class CustomUserModelBackend(ModelBackend):
             print('trying auth user model')
             user = UserModel.objects.get(username=username)
             if user.check_password(password):  # type: ignore
+                print('base user')
                 return user
         except UserModel.DoesNotExist:
             try:
