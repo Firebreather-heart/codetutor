@@ -1,3 +1,4 @@
+import resource
 import uuid
 from django.contrib.sessions.backends import file
 from django.db import models
@@ -19,11 +20,14 @@ class Task(models.Model):
     image = CloudinaryField('image', blank=True,
                             null=True, folder='task_images/')
     file = CloudinaryField('file', blank=True, null=True,
-                           folder='task_files/')
+                           folder='task_files/', resource_type='raw')
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
-        return f"Task for {self.school.name} assigned on {self.date_assigned.strftime('%d-%m-%y')} due on {self.date_due.strftime('%d-%m-%y')}" 
+        if self.date_due:
+            return f"Task for {self.school.name} assigned on {self.date_assigned.strftime('%d-%m-%y')} due on {self.date_due.strftime('%d-%m-%y')}" 
+        else:
+            return f"Task for {self.school.name} assigned on {self.date_assigned.strftime('%d-%m-%y')}"
 
     def save(self, *args, **kwargs):
         if self.classroom is None and self.custom_classroom is None:
@@ -50,7 +54,7 @@ class Submission(models.Model):
     image = CloudinaryField('image', blank=True,
                             null=True, folder='submission_images/')
     file = CloudinaryField('file', blank=True, null=True,
-                           folder='submission_files/')
+                           folder='submission_files/', resource_type='raw')
     score = models.IntegerField(null=True, blank=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
