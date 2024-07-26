@@ -51,6 +51,7 @@
             <img src="{{submission.image.url}}" alt="">
             {% endif %}
             {% if submission.file %}
+            <br>
             <a class="link-btn" href="{{submission.file.url}}">Download file</a>
             {% endif %}
             <form action="{% url 'delete_submission' submission.id  %}" method="post">
