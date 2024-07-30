@@ -172,6 +172,9 @@ textarea{
     height: 20px;
 }
 
+.preserve-whitespace{
+    white-space:pre-wrap;
+}
 @media (max-width: 600px) {
     main {
         margin: 1rem;

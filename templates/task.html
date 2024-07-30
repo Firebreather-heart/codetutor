@@ -5,7 +5,7 @@
     <div>
         <p class="head-m">{{task.classroom|default:task.custom_classroom}} <small style="float: right;font-weight: 100;">{{task.date_assigned|date:"l, jS F, Y"}}</small></p>
         <p>Due Date: {{ task.date_due|date:"l, jS F, Y P" }}</p>
-        <p>{{task.desc}}</p>
+        <p class="preserve-whitespace">{{task.desc}}</p>
         {% if task.image %}
         <img src="{{task.image.url}}" alt="task-image">
         {% endif %}    
@@ -93,7 +93,7 @@
         {% for comment in comments %}
             <div class="in-main">
                  <p class="head-m">{{comment.student.username}}</p>
-                    <p>{{comment.comment}}</p>
+                    <p class="preserve-whitespace">{{comment.comment}}</p>
                     <small>{{comment.date}}</small>
             </div>
             {% empty %}
